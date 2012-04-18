@@ -1,0 +1,34 @@
+<html>
+<head>
+  <script src="simplenote-js/src/simplenote.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery-1.7.2.js" type="text/javascript" charset="utf-8"></script>
+  <script src="jquery-base64/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript" language="javascript" charset="utf-8">
+//<![CDATA[
+var SN = new SimpleNote();
+SN.enableDebug( true );   // because we're curious
+SN.auth({
+  email: "someone@somewhere.com",
+  password: "pwd",
+  success: function() {
+    console.log( SN.isLoggedIn() );
+    SN.retrieveIndex({
+      success: function( resultsArray ) {
+        console.info( resultsArray );
+      },
+      error: function( code ) {
+        console.error( code );
+      }
+    });
+  },
+  error: function( code ) {
+    console.error( "Authentication error: " + code );
+  }
+}); 
+//]]>
+</script>
+</head>
+<body id="">
+  
+</body>
+</html>
