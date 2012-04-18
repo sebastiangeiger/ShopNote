@@ -1,0 +1,6 @@
+[submodule "jquery-base64"]
+	path = jquery-base64
+	url = https://github.com/carlo/jquery-base64.git
+[submodule "simplenote-js"]
+	path = simplenote-js
+	url = https://github.com/carlo/simplenote-js.git
