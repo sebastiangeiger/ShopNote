@@ -10,7 +10,12 @@
   "content_scripts": [
     {
       "matches": ["http://www.chefkoch.de/*"],
-      "js": ["jquery.js", "chefkoch_content_script.js"],
+      "js": ["jquery.js", "site_enhancer.js", "chefkoch_content_script.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["http://allrecipes.com/Recipe/*"],
+      "js": ["jquery.js", "site_enhancer.js", "allrecipes_content_script.js"],
       "run_at": "document_end"
     }
   ]
