@@ -1,0 +1,17 @@
+{
+  "name": "ShopNote",
+  "version": "0.1",
+  "manifest_version": 2,
+  "description": "Add items on your shopping list directly from this application.",
+  "browser_action": {
+    "default_title" : "Add to shopping list",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://www.chefkoch.de/*"],
+      "js": ["jquery.js", "chefkoch_content_script.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
