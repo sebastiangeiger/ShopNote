@@ -9,12 +9,14 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://www.chefkoch.de/*"],
+      "matches": ["http://www.chefkoch.de/rezepte/*"],
+      "css": ["site_enhancer.css"],
       "js": ["jquery.js", "site_enhancer.js", "chefkoch_content_script.js"],
       "run_at": "document_end"
     },
     {
       "matches": ["http://allrecipes.com/Recipe/*"],
+      "css": ["site_enhancer.css"],
       "js": ["jquery.js", "site_enhancer.js", "allrecipes_content_script.js"],
       "run_at": "document_end"
     }
