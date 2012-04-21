@@ -4,7 +4,8 @@ var siteEnhancer = (function() {
       checkbox_mount_points,
       navigation_for_quantity,
       navigation_for_item_name,
-      addButton,
+      addTheAddToShoppingListButton,
+      addTheCheckboxes,
       prepareCanvas,
       debug_output,
       addNecessaryElementsFunction;
@@ -14,7 +15,7 @@ var siteEnhancer = (function() {
     for(var i=0; i<items.length; i++){
       texts += (i+1) + '. ';
       if (items[i].quantity){
-        texts += items[i].quantity + " of "
+        texts += items[i].quantity + " of ";
       } 
       texts += items[i].name;
       if(i+1<items.length){
@@ -24,7 +25,7 @@ var siteEnhancer = (function() {
     return texts;
   };
 
-  addButton = function() {
+  addTheAddToShoppingListButton = function() {
     var button = $('<button>').attr('id', 'add_to_shopping_list').text('Add to shopping list').on("click", function(event) {
       event.preventDefault();
       var items = $("input.shopnote-buy-ingredient:checked").map(function(){
@@ -38,12 +39,17 @@ var siteEnhancer = (function() {
     $(button_mount_point).append(button);
   };
 
+  addTheCheckboxes = function() {
+    var form = $("<form>").attr("class","shopnote");
+    var checkbox = $("<input>").attr({"class": "shopnote-buy-ingredient", "type": "checkbox"});
+    $(form).append(checkbox);
+    $(checkbox_mount_points).prepend(form);
+  };
+
   prepareCanvas = function() {
-    // TODO: Find a way to wrap the form in a td if necessary
-    // $(checkbox_mount_points).append("<td><form class=\"shopnote\"><input class=\"shopnote-buy-ingredient\" type=\"checkbox\"/></form></td>");
-    $(checkbox_mount_points).prepend("<form class=\"shopnote\"><input class=\"shopnote-buy-ingredient\" type=\"checkbox\"/></form>");
-    addButton();
- "something" };
+    addTheCheckboxes();
+    addTheAddToShoppingListButton();
+  };
 
 
   return {

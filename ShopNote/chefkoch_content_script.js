@@ -1,9 +1,10 @@
 console.log("Beginning to load the content script");
 siteEnhancer.addNecessaryElements( function() {
-  $(".zutaten tbody").append('<tr><th></th><th></th><th></th></tr>');
+  $(".zutaten tr").prepend($('<td>').attr('class', 'shopnote-checkbox-wrapper'));
+  $(".zutaten tbody").append('<tr><td colspan=3></td></tr>');
 });
-siteEnhancer.checkboxMountPoints(".zutaten tr");
-siteEnhancer.buttonMountPoint(".zutaten tbody tr:last th:last");
+siteEnhancer.checkboxMountPoints(".zutaten tr td.shopnote-checkbox-wrapper");
+siteEnhancer.buttonMountPoint(".zutaten tbody tr:last td:first");
 siteEnhancer.navigationForQuantity(function(checkbox) {
   return $(checkbox).siblings().filter('.amount').text();
 });
