@@ -28,6 +28,9 @@ var shopNoteOptions = function(){
         notesPartiallyRetrieved = 7,
         notesRetrieved = 8,
         state,
+        allNotesRetrieved,
+        numberOfNotes = 0,
+        numberOfRetrievedNotes = 0,
         emailOrPasswordFieldUpdated;
 
     state = initial;
@@ -68,7 +71,8 @@ var shopNoteOptions = function(){
         page.hideSpinner();
         page.clearMessages();
         page.hideForgetCredentialsButton();
-        // page.hideNotesList();
+        page.hideNotesList();
+        page.hideProgressBar();
         readEmailAndPasswordFromStorage();
       },
       virginState: function(){
@@ -137,6 +141,32 @@ var shopNoteOptions = function(){
         } else {
           console.error("unforseen state change");
         }
+      },
+      numberOfAllNotes: function(number){
+        numberOfNotes = number;
+        console.log("Number of all notes is now "  + numberOfNotes);
+      },
+      retrievedNote: function(){
+        numberOfRetrievedNotes += 1;
+        console.log("Got " + numberOfRetrievedNotes + " / " + numberOfNotes +" !");
+        switch(state){
+          case loggedIn: //Falling through
+            page.updateProgressBarTo(0);
+          case notesPartiallyRetrieved:
+            if(numberOfRetrievedNotes==numberOfNotes){
+              page.updateProgressBarTo(100*numberOfRetrievedNotes/numberOfNotes);
+              state = notesRetrieved;
+              page.showNotesList();
+              page.hideProgressBar();
+            } else {
+              page.updateProgressBarTo(100*numberOfRetrievedNotes/numberOfNotes);
+              state = notesPartiallyRetrieved;
+            }
+            break;
+          default:
+            console.error("unforseen state change");
+            break;
+        }
       }
     };
   }();
@@ -147,7 +177,9 @@ var shopNoteOptions = function(){
         successField,
         statusField,
         loginSpinner,
-        notesList;
+        notesList,
+        notesListLabel,
+        progressBar;
 
     return {
       initializeFields: function(){
@@ -157,6 +189,9 @@ var shopNoteOptions = function(){
         statusField = $('.simplenote .status');
         loginSpinner = $('.simplenote .spinner');
         notesList = $('.simplenote #notes_selection select');
+        notesListLabel = $('.simplenote #notes_selection label');
+        progressBar = $('.simplenote #notes_selection #progress_bar');
+        progressBar.progressbar({value:0});
       },
       clearEmailAndPasswordFields: function(){
         $(usernameField).val("");
@@ -212,9 +247,11 @@ var shopNoteOptions = function(){
       },
       hideNotesList: function(){
         $(notesList).hide();
+        $(notesListLabel).hide();
       },
       showNotesList: function(){
         $(notesList).show();
+        $(notesListLabel).show();
       },
       enableNotesList: function(){
         $(notesList).attr("disabled", false);
@@ -225,6 +262,15 @@ var shopNoteOptions = function(){
       addNote: function(key,title){
         console.log("Called addNote");
         $(notesList).append($('<option>').attr('value', key).text(title));
+      },
+      showProgressBar: function(){
+        $(progressBar).show();
+      },
+      hideProgressBar: function(){
+        $(progressBar).hide();
+      },
+      updateProgressBarTo: function(percentage){
+        $(progressBar).progressbar("option","value",percentage);
       },
 
 
@@ -282,13 +328,20 @@ var shopNoteOptions = function(){
   };
 
   startRetrievingNotes = function(){
+    page.showProgressBar();
     simpleNote.getNotesWithKeysAndTitles({
       email: $(usernameField).val(),
       password: $(passwordField).val(),
+      numberOfExpectedItems: function(number){
+        console.log("numberOfExpectedItems called");
+        siteState.numberOfAllNotes(number);  
+      },
       success: function(note){
+        siteState.retrievedNote();
         page.addNote(note.key,note.title.truncate(47));
       },
       noteRetrievalError: function(code,key){
+        siteState.retrievedNote();
         console.error("Could not get the title of the note with the key " + key);
       },
       listRetrievalError: function(){

@@ -46,6 +46,10 @@ body {
   float:left;
 }
 
+#notes_selection #progress_bar {
+  height: 1.1em;
+}
+
 .clear {
   clear:left;
 }

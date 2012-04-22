@@ -5,9 +5,11 @@
     <script type="text/javascript" src="jquery.js"> </script>
     <script src="simplenote-js/src/simplenote.js" type="text/javascript" charset="utf-8"></script>
     <script src="jquery-base64/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" src="simplenote.js"> </script>
     <script type="text/javascript" src="options.js"> </script>
     <link rel="stylesheet" type="text/css" href="options.css" />
+    <link rel="stylesheet" type="text/css" href="jquery-ui.css" />
   </head>
 
 <body>
@@ -29,7 +31,8 @@
       <br class="clear"/>
       <div id="notes_selection">
         <form>
-          <label>Shopping list:</label>
+          <label>Shopping List:</label>
+          <div id="progress_bar"></div>
           <select>
             <option value="invalid">Select a note that serves as your shopping list</option>
             <option value="invalid">-----------------------------------------------</option>
