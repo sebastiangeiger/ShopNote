@@ -4,3 +4,9 @@
 [submodule "simplenote-js"]
 	path = simplenote-js
 	url = https://github.com/carlo/simplenote-js.git
+[submodule "ShopNote/jquery-base64"]
+	path = ShopNote/jquery-base64
+	url = https://github.com/carlo/jquery-base64.git
+[submodule "ShopNote/simplenote-js"]
+	path = ShopNote/simplenote-js
+	url = https://github.com/carlo/simplenote-js.git

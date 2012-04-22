@@ -1,0 +1,74 @@
+@font-face
+{
+  font-family: Calluna;
+  src: url('Calluna-Regular.otf');
+}
+
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+img {
+  max-width:100%;
+}
+
+body {
+  font-family: Calluna;
+  background-color: #4c4c4c;
+  padding-left: 15%;
+  padding-right: 15%;
+  
+}
+#content_wrapper {
+  padding: 5%;
+  background-color: #e6e6e6;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+.notes_provider {
+  background-color: #dadada;
+  padding: 1%;
+  border-top: 1px solid #aaaaaa;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.spinner {
+  margin-left: 1%;
+  float:left;
+  width:1.1em;
+  display: none;
+}
+
+#form {
+  float:left;
+}
+
+.clear {
+  clear:left;
+}
+
+h2 {
+  background: url('simplenote_logo.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding-left: 1.5em;
+  margin-bottom: 0.3em;
+}
+
+.error {
+  color: #b5293a;
+  background-color: #f3d0d0;
+}
+
+.success {
+  color: #3bb428;
+  background-color: #d4f2d0;
+}
+
+.status {
+  color: #e6e6e6;
+  background-color: #4c4c4c;	
+}

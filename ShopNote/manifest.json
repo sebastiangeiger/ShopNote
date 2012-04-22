@@ -3,6 +3,7 @@
   "version": "0.1",
   "manifest_version": 2,
   "description": "Add items on your shopping list directly from this application.",
+  "options_page": "options.html",
   "browser_action": {
     "default_title" : "Add to shopping list",
     "default_icon": "icon.png"
@@ -20,5 +21,6 @@
       "js": ["jquery.js", "site_enhancer.js", "allrecipes_content_script.js"],
       "run_at": "document_end"
     }
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://query.yahooapis.com; object-src 'self'"
 }
