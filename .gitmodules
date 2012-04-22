@@ -9,4 +9,4 @@
 	url = https://github.com/carlo/jquery-base64.git
 [submodule "ShopNote/simplenote-js"]
 	path = ShopNote/simplenote-js
-	url = https://github.com/carlo/simplenote-js.git
+	url = git@github.com:sebastiangeiger/simplenote-js.git

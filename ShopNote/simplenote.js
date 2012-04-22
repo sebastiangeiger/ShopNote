@@ -44,35 +44,47 @@ var simpleNote = function(){
   //     }
   //   });
   // }
-
-  return {
-    tryToLogin: function(block){
+  var getListOfNotes = function(block){
       api.auth({
         email: block.email,
         password: block.password,
-        success: block.success, 
-        error: block.error
+        success: function(){
+          api.retrieveIndex({
+            success: function(resultsArray){block.success(resultsArray);},
+            error: block.listRetrievalError
+          });
+        }, 
+        error: block.loginError
       }); 
-    }//,
-    // retrieveNotes: function(){
-    //     success: function() {
-    //       $('h1').text("[logging in] Notes in my account");
-    //       console.log( api.isLoggedIn() );
-    //       $('h1').text("[getting notes] Notes in my account");
-    //       api.retrieveIndex({
-    //         success: function( resultsArray ) {
-    //           numberOfNotes = resultsArray.length
-    //           $('h1').text("[getting notes] Notes in my account (0/"+numberOfNotes+")");
-    //           for(var i=0; i < resultsArray.length; i++){
-    //             getNoteTitle(resultsArray[i]);
-    //           }
-    //         },
-    //         error: function( code ) {
-    //           console.error( code );
-    //         }
-    //       });
-    //     },
-    //   }); 
-    // }
+    };
+
+  return {
+    tryToLogin: function(block){
+      api.auth(block); 
+    },
+    getNotesWithKeysAndTitles: function(block){
+      getListOfNotes({
+        email: block.email,
+        password: block.password,
+        loginError: block.loginError,
+        listRetrievalError: block.listRetrievalError,
+        success: function(listOfNotes){
+          console.log("called the right thing with " + listOfNotes.length + " notes");
+          for(var i=0;i<listOfNotes.length;i++){
+            var note = listOfNotes[i];
+            api.retrieveNote({
+              key: note.key,
+              success: function( noteHash ){
+                noteHash.title = noteHash.body.split(/\r\n|\r|\n/)[0];
+                block.success(noteHash);
+              },
+              error: function(code){
+                block.noteRetrievalError(code,note);
+              }
+            });
+          }
+        }
+      });
+    }
   };
 }();
