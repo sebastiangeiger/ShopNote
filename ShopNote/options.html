@@ -16,15 +16,20 @@
   <div id="content_wrapper">
     <img src="banner.png">
     <div class="notes_provider simplenote">
-      <h2>SimpleNote</h2>
-      <div id="form">
+      <div>
+        <h2>SimpleNote</h2>
+        <span id="loggedin_indicator">
+          <span id="regular"></span>
+          <a id="hover"></a>
+        </span>
+      </div>
+      <div id="login_form">
         <form>
           <input type="text"/>
           <input type="password"/>
           <button id="login">Login</button>
           <span class="error"></span>
           <span class="success"></span>
-          <button id="forget_credentials">Forget Credentials</button>
         </form>
       </div>
       <div class="spinner"><img src="spinner.gif" /></div>

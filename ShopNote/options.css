@@ -42,7 +42,7 @@ body {
   display: none;
 }
 
-#form {
+#login_form {
   float:left;
 }
 
@@ -60,6 +60,12 @@ h2 {
   background-size: contain;
   padding-left: 1.5em;
   margin-bottom: 0.3em;
+  display:inline;
+}
+#loggedin_indicator {
+  font-size: 75%;
+  margin-left: 1em;
+  color: #4c4c4c; 
 }
 
 .error {

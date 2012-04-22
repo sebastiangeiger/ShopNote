@@ -70,9 +70,10 @@ var shopNoteOptions = function(){
         page.disableLoginButton();
         page.hideSpinner();
         page.clearMessages();
-        page.hideForgetCredentialsButton();
         page.hideNotesList();
         page.hideProgressBar();
+        page.hideLoginStatusField();
+        page.hideForgetCredentialsButton();
         readEmailAndPasswordFromStorage();
       },
       virginState: function(){
@@ -108,9 +109,9 @@ var shopNoteOptions = function(){
         if(state === loginRequested){
           state = loggedIn;
           page.hideSpinner();
-          page.showForgetCredentialsButton();
           saveCredentials();
-          page.showSuccessMessage("Logged in");
+          page.setLoggedInUser($(usernameField).val());
+          page.fadeOutLoginPrompt({afterwards: page.showLoginStatusField});
           startRetrievingNotes();
         } else {
           console.error("unforseen state change");
@@ -131,9 +132,9 @@ var shopNoteOptions = function(){
       forgetCredentialsButtonPressed: function(){
         if(state === loggedIn){
           forgetCredentials();
+          page.fadeOutLoginStatusField({afterwards: page.showLoginPrompt()});
           page.enableEmailAndPasswordField();
           page.clearEmailAndPasswordFields();
-          page.hideForgetCredentialsButton();
           page.showLoginButton();
           page.disableLoginButton();
           page.clearMessages();
@@ -179,15 +180,18 @@ var shopNoteOptions = function(){
         loginSpinner,
         notesList,
         notesListLabel,
+        loginStatusField,
+        loggedInIndicator,
         progressBar;
 
     return {
       initializeFields: function(){
-        forgetCredentialsButton = $('.simplenote button#forget_credentials');
         errorField = $('.simplenote .error');
         successField = $('.simplenote .success');
-        statusField = $('.simplenote .status');
         loginSpinner = $('.simplenote .spinner');
+        loginStatusField = $('.simplenote #loggedin_indicator');
+        loggedInIndicator = $(loginStatusField).children('#regular');
+        forgetCredentialsButton = $(loginStatusField).children('#hover');
         notesList = $('.simplenote #notes_selection select');
         notesListLabel = $('.simplenote #notes_selection label');
         progressBar = $('.simplenote #notes_selection #progress_bar');
@@ -236,14 +240,30 @@ var shopNoteOptions = function(){
       enableLoginButton: function(){
         $(loginButton).attr("disabled", false);
       },
-      hideLoginButton: function(){
-        $(loginButton).hide();
+      fadeOutLoginPrompt: function(block){
+        $('#login_form').fadeOut(300,block.afterwards);
+      },
+      showLoginPrompt: function(block){
+        $('#login_form').show();
+      },
+      showLoginStatusField: function(){
+        $(loginStatusField).show();
+      },
+      hideLoginStatusField: function(){
+        $(loginStatusField).hide();
+      },
+      fadeOutLoginStatusField: function(block){
+        $(loginStatusField).fadeOut(300, block.afterwards);
       },
       hideForgetCredentialsButton: function(){
         $(forgetCredentialsButton).hide();
       },
-      showForgetCredentialsButton: function(){
-        $(forgetCredentialsButton).show();
+      setLoggedInUser: function(username){
+        $(loggedInIndicator).text("Logged in as " + username + "");
+        $(forgetCredentialsButton).text("[x] Logout " + username + ""); //TODO: Find a nice [x] icon here!
+      },
+      hideLoginButton: function(){
+        $(loginButton).hide();
       },
       hideNotesList: function(){
         $(notesList).hide();
@@ -275,12 +295,15 @@ var shopNoteOptions = function(){
 
 
       initializeButtons: function(){
+        $(loginStatusField).hover(
+          function(){$(loggedInIndicator).hide();$(forgetCredentialsButton).show();},
+          function(){$(loggedInIndicator).show();$(forgetCredentialsButton).hide();}
+        );
         $(loginButton).on("click", function(event){
           event.preventDefault();
           siteState.loginButtonPressed();
         });
         $(forgetCredentialsButton).on("click", function(event){
-          event.preventDefault();
           siteState.forgetCredentialsButtonPressed();
         });
       },
