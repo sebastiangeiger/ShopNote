@@ -111,7 +111,11 @@ var shopNoteOptions = function(){
           page.hideSpinner();
           saveCredentials();
           page.setLoggedInUser($(usernameField).val());
-          page.fadeOutLoginPrompt({afterwards: page.showLoginStatusField});
+          page.fadeOutLoginPrompt({afterwards: function(){
+              page.showLoginStatusField();
+              page.showProgressBar();
+            }
+          });
           startRetrievingNotes();
         } else {
           console.error("unforseen state change");
@@ -351,7 +355,7 @@ var shopNoteOptions = function(){
   };
 
   startRetrievingNotes = function(){
-    page.showProgressBar();
+    // page.showProgressBar();
     simpleNote.getNotesWithKeysAndTitles({
       email: $(usernameField).val(),
       password: $(passwordField).val(),

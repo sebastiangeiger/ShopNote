@@ -42,7 +42,7 @@ body {
   display: none;
 }
 
-#login_form {
+#login_form div {
   float:left;
 }
 

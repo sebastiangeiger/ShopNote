@@ -1,6 +1,6 @@
 Rough Outline:
   - Options page workable:
-    - Layout jumps while logging in and retrieving notes
+    ✓ Layout jumps while logging in and retrieving notes
     - Need to show "Retrieving Notes" while the progress bar fills up 
     - Need so save the key for the selected note
   - Further work:

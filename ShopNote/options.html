@@ -24,20 +24,22 @@
         </span>
       </div>
       <div id="login_form">
-        <form>
-          <input type="text"/>
-          <input type="password"/>
-          <button id="login">Login</button>
-          <span class="error"></span>
-          <span class="success"></span>
-        </form>
+        <div>
+          <form>
+            <input type="text"/>
+            <input type="password"/>
+            <button id="login">Login</button>
+            <span class="error"></span>
+            <span class="success"></span>
+          </form>
+        </div>
+        <div class="spinner"><img src="spinner.gif" /></div>
+        <br class="clear"/>
       </div>
-      <div class="spinner"><img src="spinner.gif" /></div>
-      <br class="clear"/>
       <div id="notes_selection">
+        <div id="progress_bar"></div>
         <form>
           <label>Shopping List:</label>
-          <div id="progress_bar"></div>
           <select>
             <option value="invalid">Select a note that serves as your shopping list</option>
             <option value="invalid">-----------------------------------------------</option>
