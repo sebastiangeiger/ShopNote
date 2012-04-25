@@ -1,6 +1,7 @@
 Rough Outline:
   - Options page workable:
     ✓ Layout jumps while logging in and retrieving notes
+    x Cache the keys and titles, then only update the keys that are not present
     - Need to show "Retrieving Notes" while the progress bar fills up 
     - Need so save the key for the selected note
   - Further work:
