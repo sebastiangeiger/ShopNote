@@ -188,6 +188,30 @@ var shopNoteOptions = function(){
         loggedInIndicator,
         progressBar;
 
+    String.prototype.truncate = function(length){
+      if(this.length < length){
+        return this;
+      } else {
+        return this.substr(0,length-4) + "...";
+      }
+    };
+
+    var addNote = function(key,title){
+      console.log("Called addNote");
+      $(notesList).append($('<option>').attr('value', key).text(title.truncate(47)));
+    }
+
+    var updateNotesList = function(changes){
+      if(changes && changes["added"]){
+        for(var i = 0; i < changes.added.length; i++){
+          var note = changes["added"][i];
+          addNote(note.key, note.title);
+        }
+      } else if (! changes) {
+        console.error("Something went wrong while updating the list");
+      }
+    }
+
     return {
       initializeFields: function(){
         errorField = $('.simplenote .error');
@@ -200,6 +224,7 @@ var shopNoteOptions = function(){
         notesListLabel = $('.simplenote #notes_selection label');
         progressBar = $('.simplenote #notes_selection #progress_bar');
         progressBar.progressbar({value:0});
+        datastorage.invokeWhenUpdated(updateNotesList);
       },
       clearEmailAndPasswordFields: function(){
         $(usernameField).val("");
@@ -284,8 +309,7 @@ var shopNoteOptions = function(){
         $(notesList).attr("disabled", true);
       },
       addNote: function(key,title){
-        console.log("Called addNote");
-        $(notesList).append($('<option>').attr('value', key).text(title));
+        addNote(key,title);
       },
       showProgressBar: function(){
         $(progressBar).show();
@@ -345,15 +369,6 @@ var shopNoteOptions = function(){
     });
   };
 
-  String.prototype.truncate = function(length){
-    if(this.length < length){
-      return this;
-    } else {
-      return this.substr(0,length-4) + "...";
-    }
-
-  };
-
   startRetrievingNotes = function(){
     // page.showProgressBar();
     simpleNote.getNotesWithKeysAndTitles({
@@ -365,7 +380,7 @@ var shopNoteOptions = function(){
       },
       success: function(note){
         siteState.retrievedNote();
-        page.addNote(note.key,note.title.truncate(47));
+        datastorage.addNote(note.key,note.title);
       },
       noteRetrievalError: function(code,key){
         siteState.retrievedNote();

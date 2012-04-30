@@ -42,7 +42,7 @@
       ok( datastorage.getNote != undefined );
       ok( datastorage.getNote instanceof Function );
     });
-    test("returns undefined if the key does not exist", function() {
+    test("returns undefined if no notes have been added yet", function() {
       ok( datastorage.getNote("someKey") == undefined ); 
     });
     test("returns the note if one key does exist", function() {
@@ -51,10 +51,17 @@
       equal( datastorage.getNote("retrievedKey").title, "retrievedNote" ); 
       equal( datastorage.getNote("retrievedKey").key, "retrievedKey" ); 
     });
-    test("returns the note if one key does exist", function() {
+    test("returns undefined if key does exist", function() {
       datastorage.addNote("retrievedKey", "retrievedNote");
       equal( datastorage.size(), 1);
       ok( datastorage.getNote("someKey") == undefined ); 
+    });
+    test("returns undefined if key does exist", function() {
+      datastorage.addNote("someKey", "someNote");
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.size(), 2);
+      ok( datastorage.getNote("someKey").title === "someNote" ); 
+      ok( datastorage.getNote("someKey").key === "someKey" ); 
     });
 
 
