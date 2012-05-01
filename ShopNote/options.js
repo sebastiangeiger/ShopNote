@@ -199,7 +199,7 @@ var shopNoteOptions = function(){
     var addNote = function(key,title){
       console.log("Called addNote");
       $(notesList).append($('<option>').attr('value', key).text(title.truncate(47)));
-    }
+    };
 
     var updateNotesList = function(changes){
       if(changes && changes["added"]){
@@ -210,7 +210,7 @@ var shopNoteOptions = function(){
       } else if (! changes) {
         console.error("Something went wrong while updating the list");
       }
-    }
+    };
 
     return {
       initializeFields: function(){
@@ -370,21 +370,36 @@ var shopNoteOptions = function(){
   };
 
   startRetrievingNotes = function(){
-    // page.showProgressBar();
-    simpleNote.getNotesWithKeysAndTitles({
+    simpleNote.getListOfNotes({
       email: $(usernameField).val(),
       password: $(passwordField).val(),
       numberOfExpectedItems: function(number){
         console.log("numberOfExpectedItems called");
         siteState.numberOfAllNotes(number);  
       },
-      success: function(note){
-        siteState.retrievedNote();
-        datastorage.addNote(note.key,note.title);
-      },
-      noteRetrievalError: function(code,key){
-        siteState.retrievedNote();
-        console.error("Could not get the title of the note with the key " + key);
+      success: function(listOfNotes){
+        var keysOfNotesThatNeedToBeFetched = [];
+        for(var i=0; i<listOfNotes.length; i++){
+          var note = listOfNotes[i];
+          if(datastorage.needsToBeRetrieved(note.key, note.modify)){
+            keysOfNotesThatNeedToBeFetched.push(note.key);
+          }
+        }  
+        this.numberOfExpectedItems(keysOfNotesThatNeedToBeFetched.length);
+        simpleNote.getNotes({
+          email: $(usernameField).val(),
+          password: $(passwordField).val(),
+          keys: keysOfNotesThatNeedToBeFetched,
+          success: function(note){
+            siteState.retrievedNote();
+            console.log("Works!");
+            datastorage.addNote(note.key,note.title);
+          },
+          noteRetrievalError: function(code,key){
+            siteState.retrievedNote();
+            console.error("Could not get the title of the note with the key " + key);
+          }
+        });
       },
       listRetrievalError: function(){
         console.error("Could not get the list");
