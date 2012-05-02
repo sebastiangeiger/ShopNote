@@ -251,7 +251,6 @@ var shopNoteOptions = function(){
         $(successField).show();
         $(successField).text(text);
         if(options && options["fadeout"]){
-
           setTimeout(function(){
             $(successField).fadeOut();
           }, options["fadeout"]*1000);

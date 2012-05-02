@@ -3,7 +3,10 @@ Rough Outline:
     ✓ Layout jumps while logging in and retrieving notes
     x Cache the keys and titles, then only update the keys that are not present
     - Need to show "Retrieving Notes" while the progress bar fills up 
-    - Need so save the key for the selected note
+    - Make Progressbar the appropriate size
+    - Make the Progressbar blend in with the rest of the design
+    ✓ Need so save the key for the selected note
   - Further work:
     - Content Scripts somehow need to access the credentials/note key information 
     - Show a modal dialog in the content scripts informing the user what is uploaded and showing the progress
+    - Have a proper logo, not a clothes basket

@@ -1,0 +1,38 @@
+digraph G { 
+  node [shape=box];
+  edge [style=bold]
+  Initial
+  Initial -> email_and_password_empty [label="local storage does not indicate an earlier login success", style=dashed, weight=1000]
+  Initial -> login_requested [label="local storage has email and password stored", style=dashed]
+  subgraph cluster_0 {
+    email_and_password_empty [label="Email and password empty"]
+    email_filled [label="Email filled"]
+    password_filled [label="Password filled"]
+    email_filled -> email_and_password_empty
+    password_filled -> email_and_password_empty
+    email_and_password_empty -> email_filled
+    email_and_password_empty -> password_filled
+  }
+  ready_for_login -> email_filled
+  ready_for_login -> password_filled
+  email_filled -> ready_for_login
+  password_filled -> ready_for_login
+  ready_for_login [label="Ready for login"]
+  ready_for_login -> login_requested [label="Login Button pressed"]
+  login_requested [label="Login requested"]
+  login_requested -> not_logged_in [label="Error"]
+  login_requested -> logged_in [label="Login succeded", style=normal]
+  not_logged_in [label="Login failed"]
+  not_logged_in -> login_requested [label="Login button pressed"]
+  not_logged_in -> password_filled [label="Removed email address"]
+  not_logged_in -> email_filled [label="Removed password"]
+  logged_in [label="Logged in"]
+  logged_in -> notes_index_retrieved [style=normal]
+  logged_in -> ready_for_login [label="Logout button pressed"]
+  notes_index_retrieved [label="Notes index retrieved"]
+  notes_index_retrieved -> notes_partially_retrieved [label="Not all notes are present", style=dashed]  
+  notes_partially_retrieved [label="Notes partially retrieved"]
+  notes_partially_retrieved -> notes_fully_retrieved [label="Retrieved last note", style=normal]
+  notes_index_retrieved -> notes_fully_retrieved [label="Local cache was still up to date", style=dashed]
+  notes_fully_retrieved [label="Notes retrieved"]
+}
