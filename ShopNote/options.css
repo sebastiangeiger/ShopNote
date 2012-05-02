@@ -46,7 +46,7 @@ body {
   float:left;
 }
 
-#notes_selection #progress_bar {
+#notes_selection #progress_bar_wrapper #progress_bar {
   height: 1.1em;
 }
 

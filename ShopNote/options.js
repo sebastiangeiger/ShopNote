@@ -184,9 +184,11 @@ var shopNoteOptions = function(){
         loginSpinner,
         notesList,
         notesListLabel,
+        notesSelection,
         loginStatusField,
         loggedInIndicator,
-        progressBar;
+        progressBar,
+        progressBarWrapper;
 
     String.prototype.truncate = function(length){
       if(this.length < length){
@@ -222,7 +224,9 @@ var shopNoteOptions = function(){
         forgetCredentialsButton = $(loginStatusField).children('#hover');
         notesList = $('.simplenote #notes_selection select');
         notesListLabel = $('.simplenote #notes_selection label');
-        progressBar = $('.simplenote #notes_selection #progress_bar');
+        notesSelection = $('.simplenote #notes_selection');
+        progressBarWrapper = $('.simplenote #progress_bar_wrapper');
+        progressBar = $('.simplenote #progress_bar_wrapper #progress_bar');
         progressBar.progressbar({value:0});
         datastorage.invokeWhenUpdated(updateNotesList);
       },
@@ -243,8 +247,15 @@ var shopNoteOptions = function(){
         $(usernameField).attr("disabled", true);
         $(passwordField).attr("disabled", true);
       },
-      showSuccessMessage: function(text){
+      showSuccessMessage: function(text,options){
+        $(successField).show();
         $(successField).text(text);
+        if(options && options["fadeout"]){
+
+          setTimeout(function(){
+            $(successField).fadeOut();
+          }, options["fadeout"]*1000);
+        }
       },
       showErrorMessage: function(text){
         $(errorField).text(text);
@@ -295,12 +306,10 @@ var shopNoteOptions = function(){
         $(loginButton).hide();
       },
       hideNotesList: function(){
-        $(notesList).hide();
-        $(notesListLabel).hide();
+        $(notesSelection).hide();
       },
       showNotesList: function(){
-        $(notesList).show();
-        $(notesListLabel).show();
+        $(notesSelection).show();
       },
       enableNotesList: function(){
         $(notesList).attr("disabled", false);
@@ -312,10 +321,10 @@ var shopNoteOptions = function(){
         addNote(key,title);
       },
       showProgressBar: function(){
-        $(progressBar).show();
+        $(progressBarWrapper).show();
       },
       hideProgressBar: function(){
-        $(progressBar).hide();
+        $(progressBarWrapper).hide();
       },
       updateProgressBarTo: function(percentage){
         $(progressBar).progressbar("option","value",percentage);
@@ -333,6 +342,10 @@ var shopNoteOptions = function(){
         });
         $(forgetCredentialsButton).on("click", function(event){
           siteState.forgetCredentialsButtonPressed();
+        });
+        $(notesList).on("change", function(event){
+          setSelectedNote({key: $(notesList).children(':selected').val()});
+          page.showSuccessMessage("Saved.", {"fadeout": 3});
         });
       },
       
@@ -425,6 +438,13 @@ var shopNoteOptions = function(){
     $(passwordField).val(localStorage["simpleNotePassword"]);
   };
 
+  setSelectedNote = function(object){
+    if(object && object["key"]){
+      localStorage["selectedNoteKey"] = object.key
+    } else {
+      console.error("object was undefined or did not have a key attribute")
+    }
+  }
   return {
     init: function() {
       initializeFields();

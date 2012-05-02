@@ -24,28 +24,37 @@
           <a id="hover"></a>
         </span>
       </div>
-      <div id="login_form">
-        <div>
+      <div id="workspace">
+
+        <div id="login_form">
+          <div>
+            <form>
+              <input type="text"/>
+              <input type="password"/>
+              <button id="login">Login</button>
+              <span class="error"></span>
+              <span class="success"></span>
+            </form>
+          </div>
+          <div class="spinner"><img src="spinner.gif" /></div>
+          <br class="clear"/>
+        </div>
+
+        <div id="progress_bar_wrapper">
+          <div id="progress_bar"></div>
+        </div>
+
+        <div id="notes_selection">
           <form>
-            <input type="text"/>
-            <input type="password"/>
-            <button id="login">Login</button>
-            <span class="error"></span>
+            <label>Shopping List:</label>
+            <select>
+              <option value="invalid">Select a note that serves as your shopping list</option>
+              <option value="invalid">-----------------------------------------------</option>
+            </select> 
             <span class="success"></span>
           </form>
         </div>
-        <div class="spinner"><img src="spinner.gif" /></div>
-        <br class="clear"/>
-      </div>
-      <div id="notes_selection">
-        <div id="progress_bar"></div>
-        <form>
-          <label>Shopping List:</label>
-          <select>
-            <option value="invalid">Select a note that serves as your shopping list</option>
-            <option value="invalid">-----------------------------------------------</option>
-          </select> 
-        </form>
+
       </div>
     </div>
   </div>
