@@ -32,6 +32,7 @@ digraph G {
   notes_index_retrieved [label="Notes index retrieved"]
   notes_index_retrieved -> notes_partially_retrieved [label="Not all notes are present", style=dashed]  
   notes_partially_retrieved [label="Notes partially retrieved"]
+  notes_partially_retrieved -> notes_partially_retrieved [label="Retrieved note", style=normal, headport="s", tailport="n"]
   notes_partially_retrieved -> notes_fully_retrieved [label="Retrieved last note", style=normal]
   notes_index_retrieved -> notes_fully_retrieved [label="Local cache was still up to date", style=dashed]
   notes_fully_retrieved [label="Notes retrieved"]
