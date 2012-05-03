@@ -1,12 +1,17 @@
 Rough Outline:
   - Options page workable:
     ✓ Layout jumps while logging in and retrieving notes
-    x Cache the keys and titles, then only update the keys that are not present
+    ✓ Cache the keys and titles, then only update the keys that are not present
+    ✓ Need so save the key for the selected note
     - Need to show "Retrieving Notes" while the progress bar fills up 
     - Make Progressbar the appropriate size
     - Make the Progressbar blend in with the rest of the design
-    ✓ Need so save the key for the selected note
+    - Need to recover from all the api errors better
+    - The logout button does not work most of the time
+    - Notes that have been updated in the meantime are not being retrieved
+  - Show a modal dialog in the content scripts:
+    - inform the user what is uploaded 
+    - show the progress
   - Further work:
     - Content Scripts somehow need to access the credentials/note key information 
-    - Show a modal dialog in the content scripts informing the user what is uploaded and showing the progress
     - Have a proper logo, not a clothes basket
