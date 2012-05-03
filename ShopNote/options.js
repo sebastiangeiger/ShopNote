@@ -199,8 +199,10 @@ var shopNoteOptions = function(){
     };
 
     var addNote = function(key,title){
-      console.log("Called addNote");
-      $(notesList).append($('<option>').attr('value', key).text(title.truncate(47)));
+      console.log("Called addNote with "+title+" (key: "+key+")");
+      if(title){
+        $(notesList).append($('<option>').attr('value', key).text(title.truncate(47)));
+      }
     };
 
     var updateNotesList = function(changes){
@@ -395,6 +397,9 @@ var shopNoteOptions = function(){
           var note = listOfNotes[i];
           if(datastorage.needsToBeRetrieved(note.key, note.modify)){
             keysOfNotesThatNeedToBeFetched.push(note.key);
+          } else {
+            var storedNote = datastorage.getNote(note.key);
+            page.addNote(storedNote.key, storedNote.title);
           }
         }  
         this.numberOfExpectedItems(keysOfNotesThatNeedToBeFetched.length);
