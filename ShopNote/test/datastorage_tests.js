@@ -59,35 +59,21 @@
       equal( datastorage.size(), 1);
       ok( datastorage.getNote("someKey") == undefined ); 
     });
-    test("returns undefined if key does exist", function() {
+    test("returns the right object if the key exists", function() {
       datastorage.addNote("someKey", "someNote");
       datastorage.addNote("retrievedKey", "retrievedNote");
       equal( datastorage.size(), 2);
       ok( datastorage.getNote("someKey").title === "someNote" ); 
       ok( datastorage.getNote("someKey").key === "someKey" ); 
     });
+    test("returns the right object if the key exists", function() {
+      datastorage.addNote("retrievedKey", "retrievedNote", "date object");
+      equal( datastorage.size(), 1);
+      equal( datastorage.getNote("retrievedKey").title, "retrievedNote" ); 
+      equal( datastorage.getNote("retrievedKey").key, "retrievedKey" ); 
+      equal( datastorage.getNote("retrievedKey").updatedTimeStamp, "date object" ); 
+    });
     
-    module("#getKeys");
-    test("it is defined", function() {
-      ok( datastorage.getKeys != undefined );
-      ok( datastorage.getKeys instanceof Function );
-    });
-    test("returns an empty array if no notes have been added yet", function() {
-      equal( datastorage.getKeys().length, 0 );
-    });
-    test("returns an array with size one if a note has been added", function() {
-      datastorage.addNote("retrievedKey", "retrievedNote");
-      equal( datastorage.getKeys().length, 1 );
-      equal( datastorage.getKeys()[0], "retrievedKey" );
-    });
-    test("returns an array with size two if two notes have been added", function() {
-      datastorage.addNote("someKey", "someNote");
-      datastorage.addNote("retrievedKey", "retrievedNote");
-      equal( datastorage.getKeys().length, 2 );
-      equal( datastorage.getKeys()[0], "someKey" );
-      equal( datastorage.getKeys()[1], "retrievedKey" );
-    });
-
     module("#deleteNote");
     test("it is defined", function() {
       ok( datastorage.deleteNote != undefined );
