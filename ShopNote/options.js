@@ -162,6 +162,7 @@ var shopNoteOptions = function(){
               page.updateProgressBarTo(100*numberOfRetrievedNotes/numberOfNotes);
               state = notesRetrieved;
               page.showNotesList();
+              page.selectNoteInNotesList(localStorage["selectedNoteKey"]);
               page.hideProgressBar();
             } else {
               page.updateProgressBarTo(100*numberOfRetrievedNotes/numberOfNotes);
@@ -329,6 +330,11 @@ var shopNoteOptions = function(){
       },
       updateProgressBarTo: function(percentage){
         $(progressBar).progressbar("option","value",percentage);
+      },
+      selectNoteInNotesList: function(key){
+        if(key){
+          $(notesList).children('option[value='+key+']').prop('selected', true);
+        }
       },
 
 
