@@ -1,5 +1,8 @@
   $(document).ready(function(){
         
+    QUnit.testDone = function(){
+      datastorage.reset();
+    }
     QUnit.testStart = function(){
       datastorage.reset();
     }
@@ -63,6 +66,59 @@
       ok( datastorage.getNote("someKey").title === "someNote" ); 
       ok( datastorage.getNote("someKey").key === "someKey" ); 
     });
+    
+    module("#getKeys");
+    test("it is defined", function() {
+      ok( datastorage.getKeys != undefined );
+      ok( datastorage.getKeys instanceof Function );
+    });
+    test("returns an empty array if no notes have been added yet", function() {
+      equal( datastorage.getKeys().length, 0 );
+    });
+    test("returns an array with size one if a note has been added", function() {
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.getKeys().length, 1 );
+      equal( datastorage.getKeys()[0], "retrievedKey" );
+    });
+    test("returns an array with size two if two notes have been added", function() {
+      datastorage.addNote("someKey", "someNote");
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.getKeys().length, 2 );
+      equal( datastorage.getKeys()[0], "someKey" );
+      equal( datastorage.getKeys()[1], "retrievedKey" );
+    });
 
+    module("#deleteNote");
+    test("it is defined", function() {
+      ok( datastorage.deleteNote != undefined );
+      ok( datastorage.deleteNote instanceof Function );
+    });
+    test("deletes a note that was stored under the key", function() {
+      datastorage.addNote("someKey", "someNote");
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.size(), 2 );
+      datastorage.deleteNote("someKey");
+      equal( datastorage.size(), 1 );
+    });
+    test("does nothing when the key did not exist", function() {
+      datastorage.addNote("someKey", "someNote");
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.size(), 2 );
+      datastorage.deleteNote("someOtherKey");
+      equal( datastorage.size(), 2 );
+    });
+
+    module("#reset");
+    test("it is defined", function() {
+      ok( datastorage.reset != undefined );
+      ok( datastorage.reset instanceof Function );
+    });
+    test("deletes all notes", function() {
+      datastorage.addNote("someKey", "someNote");
+      datastorage.addNote("retrievedKey", "retrievedNote");
+      equal( datastorage.size(), 2 );
+      datastorage.reset();
+      equal( datastorage.size(), 0 );
+    });
 
   });

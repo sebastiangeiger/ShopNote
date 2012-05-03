@@ -11,7 +11,10 @@ var datastorage = function(){
   }
   return {
     reset: function(){
-      storage = []
+      var keys = this.getKeys();
+      for(var i=0; i<keys.length; i++){
+        this.deleteNote(keys[i]); 
+      }
       // notifyListeners(); //TODO: {"removed": all_keys}
     },
     addNote: function(key,title,updatedTimeStamp){
@@ -23,6 +26,13 @@ var datastorage = function(){
     size: function(){
       return storage.length
     },
+    getKeys: function(){
+      var keys = [];
+      for(var i=0; i<storage.length; i++){
+        keys.push(storage[i].key);
+      }
+      return keys;
+    },
     getNote: function(key){
       var index = indexOf(key);
       if(index >= 0){
@@ -30,6 +40,12 @@ var datastorage = function(){
       } else {
         return undefined;
       }
+    },
+    deleteNote: function(key){
+      var index = indexOf(key);
+      if(index >= 0){
+        storage.splice(index,1) 
+      } //TODO: notifyListener here!
     },
     needsToBeRetrieved: function(key,updatedTimeStamp){
       if(this.getNote(key)){
@@ -47,6 +63,7 @@ var datastorage = function(){
         callbacks[i](changeSet);
       } 
     }
+
   }
 }();
 
