@@ -8,6 +8,9 @@ var siteEnhancer = (function() {
       addTheCheckboxes,
       prepareCanvas,
       debug_output,
+      extractItems,
+      showDialog,
+      theDialog,
       addNecessaryElementsFunction;
 
   debug_output = function(items) {
@@ -25,16 +28,22 @@ var siteEnhancer = (function() {
     return texts;
   };
 
-  addTheAddToShoppingListButton = function() {
-    var button = $('<button>').attr('id', 'add_to_shopping_list').text('Add to shopping list').on("click", function(event) {
-      event.preventDefault();
-      var items = $("input.shopnote-buy-ingredient:checked").map(function(){
+  extractItems = function() {
+    return $("input.shopnote-buy-ingredient:checked").map(function(){
         var top_level_container = $(this).parent().parent();
         var quantity = $.trim(navigation_for_quantity(top_level_container));
         var name = $.trim(navigation_for_item_name(top_level_container));
         return {quantity: quantity, name: name};
       });
-      console.log("Need to buy:\r\n " + debug_output(items));
+  };
+
+  addTheAddToShoppingListButton = function() {
+    var button = $('<button>').attr('id', 'add_to_shopping_list').text('Add to shopping list').on("click", function(event) {
+      event.preventDefault();
+      var items = extractItems();
+      var debugOutput = "Need to buy:\r\n " + debug_output(items);
+      console.log(debugOutput);
+      showDialog(debugOutput);
     });
     $(button_mount_point).append(button);
   };
@@ -46,9 +55,22 @@ var siteEnhancer = (function() {
     $(checkbox_mount_points).prepend(form);
   };
 
+  showDialog = function(text){
+    theDialog.html(text);
+    theDialog.dialog('open');
+    return false;
+  };
+
   prepareCanvas = function() {
     addTheCheckboxes();
     addTheAddToShoppingListButton();
+    theDialog = $('<div></div>')
+      .html('text')
+      .dialog({
+        autoOpen: false,
+        modal: true,
+        title: 'ShopNote'
+      });
   };
 
 

@@ -10,6 +10,7 @@ Rough Outline:
     - The logout button does not work most of the time
     - Notes that have been updated in the meantime are not being retrieved
   - Show a modal dialog in the content scripts:
+    ✓ show a modal dialog window (need to update jquery-ui for that)
     - inform the user what is uploaded 
     - show the progress
   - Further work:
